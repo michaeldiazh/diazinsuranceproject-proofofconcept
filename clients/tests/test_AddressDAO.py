@@ -27,7 +27,7 @@ class AddressDAOTest(TestCase):
         self.addressRepo.all().delete()
         return super().tearDown()
 
-    
+    #############################################################################################################
     ########################################[CREATION TEST FOR DAO]##############################################
     
     @unittest.mock.patch('clients.models.Address.isCorrect')
@@ -98,7 +98,7 @@ class AddressDAOTest(TestCase):
     
     @unittest.mock.patch('clients.models.Address.objects.all') 
     @unittest.mock.patch('clients.models.Address.objects.get') 
-    def test_findAddress_Where_Database_Is_Not_Empty_But_Target_Address_Not_In_Table(self, mock_all, mock_get):
+    def test_findAddress_Where_Database_Is_Not_Empty_And_Target_Address_Is_In_Table(self, mock_all, mock_get):
         mock_all.return_value = [self.mockAddress1, self.mockAddress2]
         mock_get.return_value = getFunction(mock_all.return_value,2)
         self.dao.addressRepo.all = mock_all
