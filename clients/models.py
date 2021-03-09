@@ -22,6 +22,7 @@ import json
     Request to a ZipCode API and returns the address value in JSON
 '''
 class Address(models.Model):
+    id = models.AutoField(primary_key=True)
     number = models.IntegerField(null = False)
     name = models.CharField(max_length = 40, null = False)
     zipcode = models.CharField(max_length=9, null = False)
