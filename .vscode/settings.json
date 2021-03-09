@@ -1,0 +1,14 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/Library/Python/3.8/site-packages",
+        "/Library/Python/3.8/site-packages"
+    ],
+    "sqlite.databaseExtensions": [
+        "db",
+        "db3",
+        "sdb",
+        "s3db",
+        "sqlite",
+        "sqlite3"
+    ]
+}
