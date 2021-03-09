@@ -5,7 +5,7 @@ class AddressDAO:
         self.addressRepo = Address.objects
         super().__init__()
     
-######################[CREATE]#####################
+######################################[CREATE]##########################################
     def addAddress(self,newAddress: Address):
         if newAddress is None:
             return False
@@ -23,5 +23,11 @@ class AddressDAO:
        
         [newAddress.save() for newAddress in listOfNewAddresses]
         return True
-
+######################################[FIND]##########################################
+    def findAddress(self,targetAddressID:int):
+        if not list(self.addressRepo.all()):
+            return None
+        if self.addressRepo.get(targetAddressID) is None:
+            return None
+        return self.addressRepo.get(targetAddressID)
     
