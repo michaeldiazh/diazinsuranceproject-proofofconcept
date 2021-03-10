@@ -231,7 +231,7 @@ class AddressDAOTest(TestCase):
     @unittest.mock.patch('clients.models.Address.objects.get') 
     @unittest.mock.patch('clients.models.Address.isCorrect')
     @unittest.mock.patch('clients.models.Address.save')
-    def test_4_1_deleteAddress_From_Full_Table(self, mock_get, mock_isCorrect, mock_save):
+    def test_4_2_deleteAddress_From_Full_Table(self, mock_get, mock_isCorrect, mock_save):
         mock_get.return_value = getFunction([self.mockAddress1],1)
         for address in [self.mockAddress1, self.mockAddress2,self.mockAddress3]:
             address.isCorrect = mock_isCorrect
@@ -239,3 +239,5 @@ class AddressDAOTest(TestCase):
         self.dao.addressRepo.get = mock_get
         self.mockAddress1 = unittest.mock.Mock(spec=Address,id=1, zipcode = '07307', city = 'Jersey City', state = 'NJ')
         self.assertFalse(self.dao.deleteAddress(1))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
