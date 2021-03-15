@@ -238,6 +238,6 @@ class AddressDAOTest(TestCase):
             address.save = mock_save
         self.dao.addressRepo.get = mock_get
         self.mockAddress1 = unittest.mock.Mock(spec=Address,id=1, zipcode = '07307', city = 'Jersey City', state = 'NJ')
-        self.assertFalse(self.dao.deleteAddress(1))
+        self.assertTrue(self.dao.deleteAddress(1))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
