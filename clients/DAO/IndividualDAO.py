@@ -55,7 +55,7 @@ class IndividualDAO:
         check = re.search('/^[0-9]$/',str(stringNumber))
         return check is None and len(stringNumber) == 16
 
-#########################[RETRIVE]#######################
+##################################[RETRIVE]###############################
     
     def findIndividual(self,targetLicenseNumber):
         if not self.checkLicenseNumber(targetLicenseNumber):
@@ -64,5 +64,24 @@ class IndividualDAO:
             return None
         return self.individualRepo.get(licenseNumber = targetLicenseNumber)
 
+    def findAllIndividuals(self):
+        if len(self.individualRepo.all()) == 0:
+            return list()
+        return self.individualRepo.all()
+
+################################[UPDATE]#################################
+
+    def updateIndividual(self, targetIndividual):
+        if not targetIndividual:
+            return False
+        if targetIndividual.address is None:
+            return False
+        if not self.individualRepo.get(licenseNumber = targetIndividual.licenseNumber):
+            return False
+        targetIndividual.save()
+        return True
+
     
+
+
         

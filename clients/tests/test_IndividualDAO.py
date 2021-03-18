@@ -4,6 +4,12 @@ from django.test import TestCase
 from django.db.models.query import QuerySet
 import unittest.mock
 
+def findIndivdual(individualLicenseNumber, listOfIndividuals):
+    for individual in listOfIndividuals:
+        if individual.licenseNumber == individualLicenseNumber :
+            return individual
+    return None
+    
 class IndividualDAOTest(TestCase):
     def setUp(self):
         self.dao = IndividualDAO()
@@ -25,6 +31,7 @@ class IndividualDAOTest(TestCase):
     def tearDown(self):
         return None
 
+######################################[CREATE TEST]##############################
     @unittest.mock.patch('clients.models.Individual.save')
     def test_1_1_addIndividual_Method_When_Individual_Is_Null(self,mock_save):
         actualValue = self.dao.addIndividual(None)
@@ -159,3 +166,40 @@ class IndividualDAOTest(TestCase):
         for ind in listOfMockIndividuals:
             self.assertTrue(ind.save.call_count == 0)
         self.assertFalse(actualValue) 
+################################[RETRIVE TEST]##################################
+    @unittest.mock.patch('clients.models.Individual.objects.get')
+    def test_2_1_findIndividual_When_It_Found_An_Individual(self,mock_get):
+        mock_get.return_value = findIndivdual(self.mockIndividual1.licenseNumber,[self.mockIndividual1,self.mockIndividual2,self.mockIndividual3])
+        self.mockIndividual1.return_value.get = mock_get
+        actualValue = self.dao.findIndividual(self.mockIndividual1.licenseNumber)
+        self.assertEqual(actualValue,self.mockIndividual1)
+
+    @unittest.mock.patch('clients.models.Individual.objects.get')
+    def test_2_2_findIndividual_When_License_Number_Is_Wrong(self,mock_get):
+        mock_get.return_value = findIndivdual('1',[self.mockIndividual1,self.mockIndividual2,self.mockIndividual3])
+        self.mockIndividual1.return_value.get = mock_get
+        actualValue = self.dao.findIndividual('1')
+        self.assertIsNone(actualValue)
+
+    @unittest.mock.patch('clients.models.Individual.objects.get')
+    def test_2_3_findIndividual_When_License_Number_Does_Not_Exist_In_Database(self,mock_get):
+        mock_get.return_value = findIndivdual('4444444444444444',[self.mockIndividual1,self.mockIndividual2,self.mockIndividual3])
+        self.mockIndividual1.return_value.get = mock_get
+        actualValue = self.dao.findIndividual('4444444444444444')
+        self.assertIsNone(actualValue)
+
+    @unittest.mock.patch('clients.models.Individual.objects.all')
+    def test_2_4_findAllIndividuals_When_Database_Is_Empty(self,mock_all):
+        mock_all.return_value = []
+        self.assertTrue(not self.dao.findAllIndividuals())
+
+    @unittest.mock.patch('clients.models.Individual.objects.all')
+    def test_2_5_findAllIndividuals_When_Database_Is_Not_Empty(self,mock_all):
+        mock_all.return_value = [self.mockIndividual1,self.mockIndividual2,self.mockIndividual3]
+        self.individualRepo.get = mock_all
+        self.dao.individualRepo =  self.individualRepo
+        self.assertTrue(self.dao.findAllIndividuals())
+        [self.assertTrue(individual in self.dao.findAllIndividuals()) for individual in [self.mockIndividual1,self.mockIndividual2,self.mockIndividual3]]
+            
+################################[UPDATE TEST]##################################
+    
